@@ -20,8 +20,7 @@ It may look something like this:
 g++ main.cpp -I/usr/include/GLFW -I./libwarp/include -L./libwarp -lglfw -ldl -lwarp -o your_program
 ```
 
-NOTE: You should check out the `final` branch of this repository for an example project using the lib!  
-It comes with a nifty Makefile that will compile both `libwarp.a` and your own project files!
+> **NOTE**: The `example` branch contains a sample project, which includes a Makefile that can compile both the library and your project automatically. Feel free to reuse it! 
 
 ## Using libwarp
 
@@ -38,7 +37,7 @@ Probably obvious, but you really should make this an actual loop. :)
 - Launch it with `launch(myRenderLoop, ...);`
 - Don't forget to add an exit condition to your loop! (use ESC or something).
 
-> **Note**: Because examples are often clearer, please check out the `example` branch of this repository for an example of how to use this library.
+> **NOTE**: Because examples are often clearer than words, please check out the `example` branch of this repository for a basic example of how to use this library.
 
 ## Documentation
 
