@@ -96,10 +96,16 @@ public	:
 	// Takes the vertical FOV (in degrees),
 	// the aspect ratio of the viewport (width / height),
 	// as well as the Z-coordinates of the near and far faces of the frustum
+	// columnMajor is true for column-major matrices, false for row-major matrices
+	// rightHanded is true for right-handed coordinate system (+Z-axis points away from the viewer), false for left-handed
+	// ndc01Z is true for NDC Z range [0, 1], false for [-1, 1] (false by default for openGL)
 	void	perspective(
 		const float fovY, const float aspectRatio,
-		const float nearZ, const float farZ)
-	{ this->mat = MATF::perspective(fovY, aspectRatio, nearZ, farZ); };
+		const float nearZ, const float farZ,
+		bool columnMajor = false,
+		bool rightHanded = true,
+		bool ndc01Z = false)
+	{ this->mat = MATF::perspective(fovY, aspectRatio, nearZ, farZ, columnMajor, rightHanded, ndc01Z); };
 
 	// The normal matrix transforms normals from model space to world space
 	// So they can be used for lighting calculations even when the model matrix
