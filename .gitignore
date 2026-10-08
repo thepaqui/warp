@@ -1,1 +1,6 @@
 shaders/*.glsl
+*.a
+*.o
+*.out
+*.swp
+*.swo
