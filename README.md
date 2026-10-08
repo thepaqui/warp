@@ -1,5 +1,5 @@
 # warp
-**`warp`** is written in `C++2a` and uses `OpenGL 4.6`.  
+**`warp`** is a 3D rendering library written in `C++2a` and uses `OpenGL 4.6`.  
 It was originally made by `thepaqui` for his `scop` project for 42 Nice.
 ## Compiling libwarp
 Create the static library `libwarp.a` using the provided Makefile.  
