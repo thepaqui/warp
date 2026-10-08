@@ -6,7 +6,7 @@
 /*   By: thepaqui <thepaqui@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:01:45 by thepaqui          #+#    #+#             */
-/*   Updated: 2026/02/06 19:37:15 by thepaqui         ###   ########.fr       */
+/*   Updated: 2026/10/08 19:27:17 by thepaqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,15 @@ public	:
 	static Matrix	orthographic(
 		const float left, const float right,
 		const float bottom, const float top,
-		const float nearZ, const float farZ);
+		const float nearZ, const float farZ
+	);
 	static Matrix	perspective(
 		const float fovY, const float aspectRatio,
-		const float nearZ, const float farZ);
+		const float nearZ, const float farZ,
+		bool columnMajor = false,
+		bool rightHanded = true,
+		bool ndc01Z = false
+	);
 };
 
 template <typename T>

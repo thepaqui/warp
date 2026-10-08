@@ -6,7 +6,7 @@
 /*   By: thepaqui <thepaqui@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 14:38:58 by thepaqui          #+#    #+#             */
-/*   Updated: 2026/02/06 19:38:37 by thepaqui         ###   ########.fr       */
+/*   Updated: 2026/10/08 19:30:22 by thepaqui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -718,15 +718,30 @@ Matrix<T>	Matrix<T>::orthographic(
 // Takes the vertical FOV (in degrees),
 // the aspect ratio of the viewport (width / height),
 // as well as the Z-coordinates of the near and far faces of the frustum
+// columnMajor is true for column-major matrices, false for row-major matrices
+// rightHanded is true for right-handed coordinate system (+Z-axis points away from the viewer), false for left-handed
+// ndc01Z is true for NDC Z range [0, 1], false for [-1, 1] (false by default for openGL)
 template <typename T>
 Matrix<T>	Matrix<T>::perspective(
 	const float fovY, const float aspectRatio,
-	const float nearZ, const float farZ)
+	const float nearZ, const float farZ,
+	bool columnMajor, bool rightHanded, bool ndc01Z
+)
 {
-	if (aspectRatio == 0.0f)
-		throw std::invalid_argument("Aspect ratio can't be 0");
-	if (nearZ == farZ)
-		throw std::invalid_argument("Frustum can't be flat");
+	if (std::isnan(farZ) || std::isnan(nearZ) || std::isnan(fovY) || std::isnan(aspectRatio))
+		throw std::invalid_argument("Arguments must be valid numbers");
+	if (fovY <= 0.0f || fovY >= 180.0f)
+		throw std::invalid_argument("FOV must be in ]0 ; 180[");
+	if (aspectRatio <= 0.0f)
+		throw std::invalid_argument("Aspect ratio must be positive and non-zero");
+
+	const bool	infiniteFar = std::isinf(farZ) && farZ > 0.0f;
+	if (nearZ <= 0.0f)
+		throw std::invalid_argument("Near plane must be positive");
+	if (!infiniteFar && farZ <= 0.0f)
+		throw std::invalid_argument("Far plane must be positive");
+	if (!infiniteFar && nearZ >= farZ)
+		throw std::invalid_argument("Frustum can't be flat or inverted");
 
 	Matrix	ret(4, 4, Mat_null);
 
@@ -735,11 +750,39 @@ Matrix<T>	Matrix<T>::perspective(
 	// to the top of the far side of the frustum
 	const float	lenToFarTop = tan(rad / 2.0f); // FOV / 2 for right triangle
 
+	const float handedNess = rightHanded ? -1.0f : 1.0f;
+
 	ret.setElem(0, 1.0f / (aspectRatio * lenToFarTop));
 	ret.setElem(5, 1.0f / (lenToFarTop));
-	ret.setElem(10, (-1.0f * (farZ + nearZ)) / (farZ - nearZ));
-	ret.setElem(11, (-2.0f * farZ * nearZ) / (farZ - nearZ));
-	ret.setElem(14, -1.0f);
+
+	if (ndc01Z)
+	{
+		if (infiniteFar)
+		{
+			ret.setElem(10, handedNess);
+			ret.setElem(columnMajor ? 14 : 11, handedNess * nearZ);
+		}
+		else
+		{
+			ret.setElem(10, handedNess * farZ / (farZ - nearZ));
+			ret.setElem(columnMajor ? 14 : 11, -(farZ * nearZ) / (farZ - nearZ));
+		}
+		ret.setElem(columnMajor ? 11 : 14, handedNess);
+	}
+	else
+	{
+		if (infiniteFar)
+		{
+			ret.setElem(10, handedNess);
+			ret.setElem(columnMajor ? 14 : 11, handedNess * 2.0f * nearZ);
+		}
+		else
+		{
+			ret.setElem(10, handedNess * (farZ + nearZ) / (farZ - nearZ));
+			ret.setElem(columnMajor ? 14 : 11, -2.0f * farZ * nearZ / (farZ - nearZ));
+		}
+		ret.setElem(columnMajor ? 11 : 14, handedNess);
+	}
 
 	return ret;
 }
