@@ -11,9 +11,9 @@ See the `Makefile` to see how. Or just use it as is. That's why it's here you kn
   - use the `-I./<libFolderName>/include/` flag to tell the compiler where the `warp.hpp` header is.
   - use the `-L./<libFolderName>/` flag to tell the compiler where `libwarp.a` is.
   - use the `-lglfw -ldl` flags to tell the compiler to use those necessary external libraries.
-    - On Windows, it might need to be `-lglfw3 -lgdi32 -lopengl32 -I C:\GLFW\include -I C:\GLFW\lib-mingw-w64` instead. No guarantees on this one.
+    - On Windows, it might need to be `-lglfw3 -lgdi32 -lopengl32 -I C:\GLFW\include -I C:\GLFW\lib-mingw-w64` instead. No guarantees on this one, sorry.
   - use the `-lwarp` flag to tell the compiler which static library to use.
-  NOTE: When linking against a static library, these `-l<libname>` flags MUST come after your own source files! Compilation may fail otherwise (lots of undefined references).
+  NOTE: When linking against a static library, these `-l<libname>` flags MUST come **AFTER** your own source files! Compilation may fail otherwise (lots of undefined references).
 
 It may look something like this:
 ```
