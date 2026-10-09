@@ -42,4 +42,5 @@ Probably obvious, but you really should make this an actual loop. :)
 ## Documentation
 
 Currently, there is none.  
-There is some information about the shader system in `shaders/README.md` and `shaders/KEYS.md`, but that's it.
+There is some information about the shader system in `shaders/README.md` and `shaders/KEYS.md`, but that's it.  
+Everything has been tested, except registering custom shader templates, so use that feature at your own risk!
