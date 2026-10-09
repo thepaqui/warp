@@ -31,10 +31,10 @@ g++ main.cpp -I/usr/include/GLFW -I./libwarp/include -L./libwarp -lglfw -ldl -lw
 ```
 - Create a render loop function. Its prototype MUST be:
 ```
-void myRenderLoop(GLFWwindow*, ...);
+void myRenderLoop(GLFWwindow*, .../* YOUR CUSTOM ADDITIONAL PARAMETERS */...);
 ```
 Probably obvious, but you really should make this an actual loop. :)
-- Launch it with `launch(myRenderLoop, ...);`
+- Launch it with `launch(myRenderLoop, .../* YOUR CUSTOM ADDITIONAL PARAMETERS */...);`
 - Don't forget to add an exit condition to your loop! (use ESC or something).
 
 > **NOTE**: Because examples are often clearer than words, please check out the `example` branch of this repository for a basic example of how to use this library.
