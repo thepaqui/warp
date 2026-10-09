@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 // What A Render Pipeline
-// Include this header to use the WARP.
+// Include this header to use warp.
 
 #ifndef WARP_HPP
 # define WARP_HPP
